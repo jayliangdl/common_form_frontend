@@ -1,4 +1,5 @@
 import axios from 'axios'; 
+
 const requestAjax=async ({url, method = 'GET', params}) => {
   const axiosConfig = {
     method: method.toLowerCase(),
@@ -53,6 +54,12 @@ const convertVariable = (context,payload_in_json) => {
         obj[key] = context.$route.query[obj[key].key];
       }else if(typeof obj[key] === 'object'){
         obj[key] = recursiveConversion(obj[key]);
+      }else if (obj[key] && typeof obj[key] === 'object' && obj[key].method === 'environment') {
+        // const variables = obj[key].variables;
+        // const value = obj[key].value;
+        
+        // "value":"http://{{host}}/location"
+        // obj[key] = context.$route.query[obj[key].key];
       }
     }
     console.log(`obj:${JSON.stringify(obj)}`);

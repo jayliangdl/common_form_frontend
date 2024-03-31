@@ -13,6 +13,7 @@ const router = new VueRouter({
   ]
 });
 
+console.log(`HOST:${process.env.API_URL}`);
 new Vue({
   router,
   store,

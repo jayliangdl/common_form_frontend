@@ -1,5 +1,6 @@
 <template>
   <div id="app" :key="refresh">
+    {{ apiUrl }}
     <ContainerComponent id="root" :componentConfigsFromProps="componentConfigs"/>
   </div>
 </template>
@@ -16,6 +17,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: process.env.API_URL,
       componentConfigs: [],
       nextConfigs: [],
       initAppConfig: {},
@@ -26,7 +28,7 @@ export default {
   computed: {
     ...mapGetters([
       'getValue'
-    ])
+    ]),
   },
   created(){
     //所有组件变动的时候（例如用户在InputComponent组件中输入内容；用户在SelectComponent组件中选择内容时候等等）都会触发ControlChanged事件，上报它们最新的值

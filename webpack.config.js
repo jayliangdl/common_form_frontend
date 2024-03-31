@@ -1,5 +1,7 @@
-  const { VueLoaderPlugin } = require('vue-loader');
+const Dotenv = require('dotenv-webpack');
+const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -30,8 +32,11 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new Dotenv(),
     new HtmlWebpackPlugin({
       template: 'src/index.html' // 指向你的模板文件
+    }),
+    new webpack.DefinePlugin({
     })
   ],
   devServer: {
