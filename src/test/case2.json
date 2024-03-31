@@ -1,0 +1,131 @@
+{
+	"componentConfigs": [
+    {
+      "type": "SelectComponent",
+      "id": "show_and_hide_select",
+      "properties": {
+        "options": [{
+            "value": "showSelectComponent",
+            "label": "Show Gender"
+          },
+          {
+            "value": "hideSelectComponent",
+            "label": "Hide Gender"
+          }
+        ],
+        "initValue": "showSelectComponent"
+      }
+    },
+    {
+		"type": "ContainerComponent",
+		"id": "addressContainer",
+		"properties": {
+			"componentConfigs": [{
+					"type": "LabelComponent",
+					"id": "label1",
+					"properties": {
+						"initLabelText": "地址:"
+					}
+				},
+				{
+					"type": "SelectComponent",
+					"id": "province",
+					"properties": {
+						"options": [
+              {
+								"value": "",
+								"label": "请选择"
+							},
+              {
+								"value": "beijing",
+								"label": "北京"
+							},
+							{
+								"value": "shanghai",
+								"label": "上海"
+							},
+							{
+								"value": "guangdong",
+								"label": "广东"
+							}
+						],
+						"initValue": ""
+					}
+				},
+        {
+					"type": "SelectComponent",
+					"id": "city",
+					"properties": {
+						"options": [
+              
+						],
+						"initValue": ""
+					}
+				}
+			]
+		}
+	}],
+	"nextConfigs": [
+    {
+			"condition": {
+				"type": "and",
+				"conditions": [{
+					"id": "show_and_hide_select",
+					"operation": "equals",
+					"value": "showSelectComponent"
+				}]
+			},
+			"actionList": [{
+				"event": "GoingtoHideContainer",
+				"payload": {
+					"id": "addressContainer",
+					"shouldBeVisible": true
+				}
+			}]
+		},
+		{
+			"condition": {
+				"type": "and",
+				"conditions": [{
+					"id": "show_and_hide_select",
+					"operation": "equals",
+					"value": "hideSelectComponent"
+				}]
+			},
+			"actionList": [{
+				"event": "GoingtoHideContainer",
+				"payload": {
+					"id": "addressContainer",
+					"shouldBeVisible": false
+				}
+			}]
+		},
+    {
+			"condition": {
+				"type": "and",
+				"conditions": [{
+					"id": "province",
+					"operation": "equals",
+					"value": "guangdong"
+				}]
+			},
+			"actionList": [{
+				"event": "GoingtoChangeSelectOptions",
+				"payload": {
+					"id": "city",
+					"options": [
+            {
+              "value": "guangzhou",
+              "label": "广州"
+            },
+            {
+              "value": "shenzhen",
+              "label": "深圳"
+            }
+          ]
+				}
+			}]
+		}
+	],
+	"desc": "配置: 当select1为showSelectComponent时，则展示select2组件；当select1为hideSelectComponent时，则隐藏select2组件"
+}

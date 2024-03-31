@@ -1,0 +1,148 @@
+{
+  "componentConfigs": [
+    {
+      "type": "SelectComponent",
+      "id": "visibilityToggle",
+      "properties": {
+        "initValue": "显示",
+        "options": [
+          {
+            "label": "隐藏",
+            "value": "隐藏"
+          },
+          {
+            "label": "显示",
+            "value": "显示"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ContainerComponent",
+      "id": "citySelectionContainer",
+      "properties": {
+        "componentConfigs": [
+          {
+            "type": "SelectComponent",
+            "id": "provinceSelect",
+            "properties": {
+              "initValue": "请你选择",
+              "options": [
+                {
+                  "label": "请你选择",
+                  "value": ""
+                },
+                {
+                  "label": "北京",
+                  "value": "beijing"
+                },
+                {
+                  "label": "广东",
+                  "value": "guangdong"
+                }
+              ]
+            }
+          },
+          {
+            "type": "SelectComponent",
+            "id": "citySelect",
+            "properties": {
+              "initValue": "",
+              "options": []
+            }
+          },
+          {
+            "type": "ButtonComponent",
+            "id": "submitBtn",
+            "properties": {
+              "buttonText": "OK",
+              "url": "http://localhost:3000/submit",
+              "method": "post",
+              "params": {
+                "customer_id": {"method": "parametersFromRequest", "key": "customer_id"},
+                "province": {"method": "formField", "key": "provinceSelect"},
+                "city": {"method": "formField", "key": "citySelect"}
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "visibilityToggle",
+            "operation": "equals",
+            "value": "隐藏"
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideContainer",
+          "payload": {
+            "id": "citySelectionContainer",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "visibilityToggle",
+            "operation": "equals",
+            "value": "显示"
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideContainer",
+          "payload": {
+            "id": "citySelectionContainer",
+            "shouldBeVisible": true
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type": "or",
+        "conditions": [
+          {
+            "id": "provinceSelect",
+            "operation": "any",
+            "value": ""
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeSelectOptionsByAjax",
+          "payload": {
+            "id": "citySelect",
+            "url": "http://localhost:3000/location",
+            "method": "post",
+            "params": {
+              "province": {"method": "formField", "key": "provinceSelect"}
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "initAppConfig": {
+    "url": "http://localhost:3000/initApp",
+    "method": "post",
+    "params": {
+      "customer_id": {"method": "parametersFromRequest", "key": "customer_id"}
+    }
+  }
+}

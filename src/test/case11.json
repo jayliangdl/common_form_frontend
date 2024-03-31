@@ -1,0 +1,88 @@
+{
+  "componentConfigs": [
+    {
+      "type": "RadioComponent",
+      "id": "acceptTerms",
+      "properties": {
+        "initValue": "no",
+        "options": [
+          {
+            "label": "隐藏",
+            "value": "yes"
+          },
+          {
+            "label": "显示",
+            "value": "no"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ContainerComponent",
+      "id": "additionalInfoContainer",
+      "properties": {
+        "componentConfigs": [
+          {
+            "type": "InputComponent",
+            "id": "additionalInfo",
+            "properties": {
+              "initValue": "",
+              "placeholder": "请提供额外的信息"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "acceptTerms",
+            "operation": "equals",
+            "value": "yes"
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideContainer",
+          "payload": {
+            "id": "additionalInfoContainer",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "acceptTerms",
+            "operation": "equals",
+            "value": "no"
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideContainer",
+          "payload": {
+            "id": "additionalInfoContainer",
+            "shouldBeVisible": true
+          }
+        }
+      ]
+    }
+  ],
+  "initAppConfig": {
+    "url": "http://localhost:3000/initApp",
+    "method": "post",
+    "params": {
+      "customer_id": {"method": "parametersFromRequest", "key": "customer_id"}
+    }
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "componentConfigs": [
+    {
+      "type": "SelectComponent",
+      "id": "visibilitySelect",
+      "properties": {
+        "initValue": "显示",
+        "options": [
+          {
+            "label": "隐藏",
+            "value": "隐藏"
+          },
+          {
+            "label": "显示",
+            "value": "显示"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ContainerComponent",
+      "id": "citySelectionContainer",
+      "properties": {
+        "componentConfigs": [
+          {
+            "type": "SelectComponent",
+            "id": "provinceSelect",
+            "properties": {
+              "initValue": "请你选择",
+              "options": [
+                {
+                  "label": "请你选择",
+                  "value": "请你选择"
+                },
+                {
+                  "label": "北京",
+                  "value": "beijing"
+                },
+                {
+                  "label": "广东",
+                  "value": "guangdong"
+                }
+              ]
+            }
+          },
+          {
+            "type": "SelectComponent",
+            "id": "citySelect",
+            "properties": {
+              "initValue": "",
+              "options": []
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "visibilitySelect",
+            "operation": "equals",
+            "value": "隐藏"
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideContainer",
+          "payload": {
+            "id": "citySelectionContainer",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "visibilitySelect",
+            "operation": "equals",
+            "value": "显示"
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideContainer",
+          "payload": {
+            "id": "citySelectionContainer",
+            "shouldBeVisible": true
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "provinceSelect",
+            "operation": "equals",
+            "value": "guangdong"
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeSelectOptionsByAjax",
+          "payload": {
+            "id": "citySelect",
+            "url": "http://localhost:3000/location",
+            "method": "post",
+            "params": {
+              "province":  {"method": "formField", "key": "provinceSelect"}
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

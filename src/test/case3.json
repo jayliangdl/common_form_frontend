@@ -1,0 +1,103 @@
+{
+  "componentConfigs": [
+    {
+      "type": "SelectComponent",
+      "id": "visibilityToggle",
+      "properties": {
+        "initValue": "显示",
+        "options": [
+          {
+            "label": "隐藏",
+            "value": "隐藏"
+          },
+          {
+            "label": "显示",
+            "value": "显示"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ContainerComponent",
+      "id": "citySelectionContainer",
+      "properties": {
+        "componentConfigs": [
+          {
+            "type": "SelectComponent",
+            "id": "provinceSelect",
+            "properties": {
+              "initValue": "请你选择",
+              "options": [
+                {
+                  "label": "请你选择",
+                  "value": "请你选择"
+                },
+                {
+                  "label": "北京",
+                  "value": "北京"
+                },
+                {
+                  "label": "广东",
+                  "value": "广东"
+                }
+              ]
+            }
+          },
+          {
+            "type": "SelectComponent",
+            "id": "citySelect",
+            "properties": {
+              "initValue": "",
+              "options": []
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "skipCondition":"true"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideContainer",
+          "payload": {
+            "id": "citySelectionContainer",
+            "shouldBeVisible": "${this.getValue('visibilityToggle')=='显示'?true:false}"
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "conditions": [
+          {
+            "id": "provinceSelect",
+            "operation": "equals",
+            "value": "广东"
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeSelectOptions",
+          "payload": {
+            "id": "citySelect",
+            "options": [
+              {
+                "label": "广州",
+                "value": "广州"
+              },
+              {
+                "label": "深圳",
+                "value": "深圳"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

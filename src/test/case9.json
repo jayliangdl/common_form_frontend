@@ -1,0 +1,49 @@
+{
+  "componentConfigs": [
+    {
+      "type": "CheckboxComponent",
+      "id": "featureToggle",
+      "properties": {
+        "initValue": "enabled",
+        "options": [
+          {
+            "label": "启用特性",
+            "value": "enabled"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ContainerComponent",
+      "id": "advancedSettingsContainer",
+      "properties": {
+        "componentConfigs": [
+          {
+            "type": "InputComponent",
+            "id": "advancedOption",
+            "properties": {
+              "initValue": "",
+              "placeholder": "请输入高级设置"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "skipCondition": "true"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideContainer",
+          "payload": {
+            "id": "advancedSettingsContainer",
+            "shouldBeVisible": {"method": "formField", "key": "featureToggle"}
+          }
+        }
+      ]
+    }
+  ]
+}

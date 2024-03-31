@@ -1,0 +1,91 @@
+{
+	"componentConfigs": [{
+		"type": "ContainerComponent",
+		"id": "container1",
+		"properties": {
+			"componentConfigs": [{
+					"type": "LabelComponent",
+					"id": "label1",
+					"properties": {
+						"initLabelText": "Show/Hide:"
+					}
+				},
+				{
+					"type": "SelectComponent",
+					"id": "select1",
+					"properties": {
+						"options": [{
+								"value": "showSelectComponent",
+								"label": "Show Gender"
+							},
+							{
+								"value": "hideSelectComponent",
+								"label": "Hide Gender"
+							}
+						],
+						"initValue": "showSelectComponent"
+					}
+				},
+				{
+					"type": "LabelComponent",
+					"id": "label2",
+					"properties": {
+						"initLabelText": "Gender:"
+					}
+				},
+				{
+					"type": "SelectComponent",
+					"id": "select2",
+					"properties": {
+						"options": [{
+								"value": "male",
+								"label": "Male"
+							},
+							{
+								"value": "female",
+								"label": "Female"
+							}
+						],
+						"initValue": "female"
+					}
+				}
+			]
+		}
+	}],
+	"nextConfigs": [{
+			"condition": {
+				"type": "and",
+				"conditions": [{
+					"id": "select1",
+					"operation": "equals",
+					"value": "showSelectComponent"
+				}]
+			},
+			"actionList": [{
+				"event": "GoingtoHideSelectComponent",
+				"payload": {
+					"id": "select2",
+					"shouldBeVisible": true
+				}
+			}]
+		},
+		{
+			"condition": {
+				"type": "and",
+				"conditions": [{
+					"id": "select1",
+					"operation": "equals",
+					"value": "hideSelectComponent"
+				}]
+			},
+			"actionList": [{
+				"event": "GoingtoHideSelectComponent",
+				"payload": {
+					"id": "select2",
+					"shouldBeVisible": false
+				}
+			}]
+		}
+	],
+	"desc": "配置: 当select1为showSelectComponent时，则展示select2组件；当select1为hideSelectComponent时，则隐藏select2组件"
+}

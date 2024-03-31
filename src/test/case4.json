@@ -1,0 +1,100 @@
+{
+  "componentConfigs": [
+    {
+      "type": "SelectComponent",
+      "id": "visibilityToggle",
+      "properties": {
+        "initValue": "显示",
+        "options": [
+          {
+            "label": "隐藏",
+            "value": "隐藏"
+          },
+          {
+            "label": "显示",
+            "value": "显示"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ContainerComponent",
+      "id": "citySelectionContainer",
+      "properties": {
+        "componentConfigs": [
+          {
+            "type": "SelectComponent",
+            "id": "provinceSelect",
+            "properties": {
+              "initValue": "请你选择",
+              "options": [
+                {
+                  "label": "请你选择",
+                  "value": ""
+                },
+                {
+                  "label": "北京",
+                  "value": "北京"
+                },
+                {
+                  "label": "广东",
+                  "value": "广东"
+                }
+              ]
+            }
+          },
+          {
+            "type": "SelectComponent",
+            "id": "citySelect",
+            "properties": {
+              "initValue": "",
+              "options": []
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "skipCondition": "true"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideContainer",
+          "payload": {
+            "id": "citySelectionContainer",
+            "shouldBeVisible": {
+              "method":"condition",
+              "condition": "equals",
+              "key": "visibilityToggle",
+              "value": "显示"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "conditions": [
+          {
+            "id": "provinceSelect",
+            "operation": "any"
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeSelectOptionsByAjax",
+          "payload": {
+            "id":"citySelect",
+            "url" : "http://localhost:3000/location",
+            "method": "post",
+            "params": {"province":"广东"}
+          }
+        }
+      ]
+    }
+  ]
+}
