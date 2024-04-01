@@ -1,6 +1,6 @@
 <template>
   <div id="app" :key="refresh">
-    {{ apiUrl }}
+    <!-- {{ apiUrl }}<button @click="testEnv">check</button> -->
     <ContainerComponent id="root" :componentConfigsFromProps="componentConfigs"/>
   </div>
 </template>
@@ -9,7 +9,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import ContainerComponent from '../components/ContainerComponent.vue';
 import { EventBus } from '../eventBus.js';
-import { requestAjax,convertVariable } from '../util';
+import { requestAjax,processConfig } from '../util';
 import lodash from 'lodash';
 export default {
   components: {
@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      apiUrl: process.env.API_URL,
+      // apiUrl: process.env.API_URL,
       componentConfigs: [],
       nextConfigs: [],
       initAppConfig: {},
@@ -93,7 +93,9 @@ export default {
                 conditionBlock.actionList.forEach(action => {
                     const payload = { ...action.payload };
                     let convert_payload = lodash.cloneDeep(payload); // 使用深拷贝，不然下面一句会将action.payload对象改变。
-                    convert_payload = convertVariable(this,convert_payload);
+                    
+                    convert_payload = processConfig(this, convert_payload);
+                    // convert_payload = convertVariable(this,convert_payload);
                     // 通过EventBus发射事件
                     console.log(` ${action.event}---${JSON.stringify(convert_payload)}`);
                     EventBus.$emit(action.event, convert_payload);
@@ -129,7 +131,8 @@ export default {
         const url = this.initAppConfig['url'];
         const method = 'method' in this.initAppConfig && this.initAppConfig['method'] && this.initAppConfig['method']!=''?this.initAppConfig['method']:undefined;
         const params = 'params' in this.initAppConfig && this.initAppConfig['params'] ?this.initAppConfig['params']:undefined;
-        const params_convert = convertVariable(this,params);
+        const params_convert = processConfig(this,params);
+        // const params_convert = convertVariable(this,params);
         const response = await requestAjax({url, method, params:params_convert}); 
         if(response){
           if(response.data){

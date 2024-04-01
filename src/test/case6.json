@@ -107,10 +107,10 @@
           "event": "GoingtoChangeSelectOptionsByAjax",
           "payload": {
             "id": "citySelect",
-            "url": {"method": "environment", "variables": ["host"],  "value":"http://{{host}}/location"},
+            "url": "{{environment:API_URL}}/location",
             "method": "post",
             "params": {
-              "province":  {"method": "formField", "key": "provinceSelect"}
+              "province": "{{formField:provinceSelect}}"
             }
           }
         }

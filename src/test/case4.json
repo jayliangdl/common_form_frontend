@@ -89,7 +89,7 @@
           "event": "GoingtoChangeSelectOptionsByAjax",
           "payload": {
             "id":"citySelect",
-            "url" : "http://localhost:3000/location",
+            "url" : "{{environment:API_URL}}/location",
             "method": "post",
             "params": {"province":"广东"}
           }

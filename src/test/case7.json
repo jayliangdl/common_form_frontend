@@ -1,9 +1,10 @@
 {
+  
   "initAppConfig":{
-    "url":"http://localhost:3000/initApp",
+    "url":"{{environment:API_URL}}/initApp",
     "method":"post",
     "params":{
-      "customer_id":{"method": "parametersFromRequest", "key": "customer_id"}
+      "customer_id":"{{parametersFromRequest:customer_id}}"
     }
   },
   "componentConfigs": [
@@ -70,8 +71,8 @@
         "method":"post",
         "params":{
           "customer_id":"1234",
-          "province":  {"method": "formField", "key": "provinceSelect"},
-          "city":  {"method": "formField", "key": "citySelect"}
+          "province":  "{{formField:provinceSelect}}",
+          "city":  "{{formField:citySelect}}"
         }
       }
     }
@@ -131,7 +132,7 @@
             "url": "http://localhost:3000/location",
             "method": "post",
             "params": {
-              "province": {"method": "formField", "key": "provinceSelect"}
+              "province": "{{formField:provinceSelect}}"
             }
           }
         }

@@ -40,7 +40,7 @@
           "event": "GoingtoHideContainer",
           "payload": {
             "id": "advancedSettingsContainer",
-            "shouldBeVisible": {"method": "formField", "key": "featureToggle"}
+            "shouldBeVisible": "{{formField:featureToggle}}"
           }
         }
       ]

@@ -65,7 +65,12 @@
           "event": "GoingtoHideContainer",
           "payload": {
             "id": "citySelectionContainer",
-            "shouldBeVisible": "${this.getValue('visibilityToggle')=='显示'?true:false}"
+            "shouldBeVisible": {
+              "method":"condition",
+              "condition": "equals",
+              "key": "{{formField:visibilityToggle}}",
+              "value": "显示"
+            }
           }
         }
       ]

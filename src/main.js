@@ -13,10 +13,14 @@ const router = new VueRouter({
   ]
 });
 
-console.log(`HOST:${process.env.API_URL}`);
 new Vue({
   router,
   store,
   el: '#app',
   render: h => h(App)
 });
+
+//以下代码用于临时调试或测试
+// console.log(`HOST:${process.env['API_URL']}`);
+// import {testcase_group_1} from './test/testcase_parseTemplate'
+// testcase_group_1();

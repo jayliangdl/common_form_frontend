@@ -117,7 +117,7 @@
             "url": "http://localhost:3000/location",
             "method": "post",
             "params": {
-              "province":  {"method": "formField", "key": "provinceSelect"}
+              "province":  "{{formField:provinceSelect}}"
             }
           }
         }

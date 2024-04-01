@@ -4,7 +4,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { requestAjax,convertVariable } from '../util';
+import { requestAjax,processConfig } from '../util';
 export default {
   data(){
     return {
@@ -38,7 +38,8 @@ export default {
         'method':this.method,
         'params':this.params
       };
-      requestParams = convertVariable(this,requestParams);
+      // requestParams = convertVariable(this,requestParams);
+      requestParams = processConfig(this,requestParams);
       const response = await requestAjax(requestParams);
       if(response){
         if(response.data){

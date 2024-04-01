@@ -56,12 +56,12 @@
             "id": "submitBtn",
             "properties": {
               "buttonText": "OK",
-              "url": "http://localhost:3000/submit",
+              "url": "{{environment:API_URL}}/submit",
               "method": "post",
               "params": {
-                "customer_id": {"method": "parametersFromRequest", "key": "customer_id"},
-                "province": {"method": "formField", "key": "provinceSelect"},
-                "city": {"method": "formField", "key": "citySelect"}
+                "customer_id": "{{parametersFromRequest:customer_id}}",
+                "province": "{{formField:provinceSelect}}",
+                "city": "{{formField:citySelect}}"
               }
             }
           }
@@ -128,10 +128,10 @@
           "event": "GoingtoChangeSelectOptionsByAjax",
           "payload": {
             "id": "citySelect",
-            "url": "http://localhost:3000/location",
+            "url": "{{environment:API_URL}}/location",
             "method": "post",
             "params": {
-              "province": {"method": "formField", "key": "provinceSelect"}
+              "province": "{{formField:provinceSelect}}"
             }
           }
         }
@@ -139,10 +139,10 @@
     }
   ],
   "initAppConfig": {
-    "url": "http://localhost:3000/initApp",
+    "url": "{{environment:API_URL}}/initApp",
     "method": "post",
     "params": {
-      "customer_id": {"method": "parametersFromRequest", "key": "customer_id"}
+      "customer_id": "{{parametersFromRequest:customer_id}}"
     }
   }
 }

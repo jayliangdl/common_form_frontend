@@ -82,7 +82,7 @@
     "url": "http://localhost:3000/initApp",
     "method": "post",
     "params": {
-      "customer_id": {"method": "parametersFromRequest", "key": "customer_id"}
+      "customer_id": "{{parametersFromRequest:customer_id}}"
     }
   }
 }
