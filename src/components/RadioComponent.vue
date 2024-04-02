@@ -16,7 +16,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { EventBus } from '../eventBus.js';
-
+import {initDisabled,initVisible} from '../util';
 export default {
   props: ['id', 'properties'],
   data() {
@@ -24,6 +24,7 @@ export default {
       options: [], // 可选值列表
       visible: true, // 控制组件的可见性
       selectedValue: '', // 当前选中的值
+      disabled: false, // 添加disabled属性，默认为false，表示组件未被禁用
     };
   },
   computed: {
@@ -51,7 +52,23 @@ export default {
         this.visible = shouldBeVisible; // 更新组件的可见性
       }
     });
+
+    EventBus.$on('GoingtoDisableRadioComponent', ({ id, disabled }) => {
+      if (id === this.id) {
+          this.handleDisable(disabled); // 调用handleDisable方法
+      }
+    });
+    initDisabled(this);
+    initVisible(this);
   },
+
+  beforeDestroy() {
+      EventBus.$off('GoingtoChangeRadioValue');
+      EventBus.$off('GoingtoChangeRadioOptions');
+      EventBus.$off('GoingtoHideRadioComponent');
+      EventBus.$off('GoingtoDisableRadioComponent');
+  },
+
   methods: {
     ...mapActions(['updateValue']), // 对应 Vuex actions 中的 updateValue
 
@@ -68,6 +85,10 @@ export default {
       if (this.properties.initValue !== undefined) {
         this.selectedValue = this.properties.initValue;
       }
+    },
+    // 处理组件启用/禁用状态的变化
+    handleDisable(isDisabled) {
+        this.disabled = isDisabled; // 更新disabled属性
     },
   }
 };

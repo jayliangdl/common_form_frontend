@@ -1,0 +1,155 @@
+{
+  "componentConfigs": [
+    {
+      "type": "LabelComponent",
+      "id": "annualTripLabel",
+      "properties": {
+        "initLabelText": "员工年度旅游选项"
+      }
+    },
+    {
+      "type": "CheckboxComponent",
+      "id": "annualTripOptions",
+      "properties": {
+        "options": [
+          {
+            "label": "黄山旅游",
+            "value": "1"
+          },
+          {
+            "label": "本地吃喝玩乐奢侈一日游",
+            "value": "2"
+          },
+          {
+            "label": "法国游",
+            "value": "3"
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabelComponent",
+      "id": "idCardLabel",
+      "properties": {
+        "initLabelText": "身份证号"
+      }
+    },
+    {
+      "type": "InputComponent",
+      "id": "idCardInput",
+      "properties": {
+        "initValue": "",
+        "initVisible": false
+      }
+    },
+    {
+      "type": "LabelComponent",
+      "id": "passportLabel",
+      "properties": {
+        "initLabelText": "护照"
+      }
+    },
+    {
+      "type": "InputComponent",
+      "id": "passportInput",
+      "properties": {
+        "initValue": "",
+        "initVisible": false
+      }
+    },
+    {
+      "type": "ButtonComponent",
+      "id": "submitButton",
+      "properties": {
+        "buttonText": "OK",
+        "url": "{{environment:API_URL}}/submit",
+        "method": "post",
+        "params": {
+          "customer_id": "{{parametersFromRequest:customer_id}}",
+          "customerSelectItems": "{{formField:annualTripOptions}}",
+          "IDCard": "{{formField:idCardInput}}",
+          "Passport": "{{formField:passportInput}}"
+        }
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "type": "or",
+        "conditions": [
+          {
+            "id": "annualTripOptions",
+            "operation": "in",
+            "value": ["1", "3"]
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideInputComponent",
+          "payload": {
+            "id": "idCardInput",
+            "shouldBeVisible": true
+          }
+        },
+        {
+          "event": "GoingtoHideInputComponent",
+          "payload": {
+            "id": "passportInput",
+            "shouldBeVisible": true
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "annualTripOptions",
+            "operation": "not in",
+            "value": ["1", "3"]
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideInputComponent",
+          "payload": {
+            "id": "idCardInput",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "annualTripOptions",
+            "operation": "not in",
+            "value": ["3"]
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideInputComponent",
+          "payload": {
+            "id": "passportInput",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    }
+  ],
+  "initAppConfig": {
+    "url": "{{environment:API_URL}}/initApp",
+    "method": "post",
+    "params": {
+      "customer_id": "{{parametersFromRequest:customer_id}}"
+    }
+  }
+}

@@ -7,11 +7,13 @@
   <script>
   import { mapGetters, mapActions } from 'vuex';
   import { EventBus } from '../eventBus.js';
+  import {initDisabled,initVisible} from '../util';
   export default {
     props: ['id','properties'],
     data(){
       return {
         visible: true,
+        disabled: false, // 添加disabled属性，默认为false，表示组件未被禁用
       }
     },
     computed: {
@@ -42,31 +44,56 @@
         this.initValueFromProperties();
       }
       this.visible = true;
-      EventBus.$on('GoingtoChangeInputText', ({ id, value }) => {
+      EventBus.$on('GoingtoChangeInputValue', ({ id, value }) => {
         if (id === this.id) {
           this.handleValueChange(value);
         }
       });
-      // payload结构: { id,shouldBeVisible  }
-      EventBus.$on('GoingtoHideInputText', (payload) => {
-        if (payload.id === this.id) {
-          this.toggleVisibility(payload.shouldBeVisible);
+      // 入参结构: { id,shouldBeVisible  }
+      EventBus.$on('GoingtoHideInputComponent', ({ id,shouldBeVisible  }) => {
+        if (id === this.id) {
+          this.toggleVisibility(shouldBeVisible);
         }
       });
 
-      EventBus.$on('GoingtoChangeInputTextByAjax', (payload) => {
+      EventBus.$on('GoingtoChangeInputValueByAjax', (payload) => {
         if (payload.id === this.id) {
           this.handleValueChangeByAjax(payload);
         }
       });
+
+      // 监听GoingtoDisableInputComponent事件
+      EventBus.$on('GoingtoDisableInputComponent', ({id,disabled}) => {
+        if (id === this.id) {
+          this.handleDisable(disabled); // 调用handleDisable方法
+        }
+      });
+
+      initDisabled(this);
+      initVisible(this);
+      // if('initVisible' in this.properties 
+      //   && this.properties.initVisible!=undefined 
+      //   && this.properties.initVisible!=null 
+      //   && (typeof this.properties.initVisible)=='boolean'){
+      //   this.visible = this.properties.initVisible;
+      // }
+
+      // if('initDisabled' in this.properties 
+      //   && this.properties.initDisabled!=undefined 
+      //   && this.properties.initDisabled!=null 
+      //   && (typeof this.properties.initDisabled)=='boolean'){
+      //   this.disabled = this.properties.initDisabled;
+      // }
 
       //初始化时候，可能会有初始化数据，而初始化数据可能会影响到其他组件，所以需要在初始化结束时候发出事件（例如用户地址选择场景，用户可能省份选中了“广东”，那么如果本场景，则需要发出省份下拉列表选中广东，进而影响城市列表，列出广东的城市）
       this.emitInitValue();
       
     },
     beforeDestroy() {
-      EventBus.$off('GoingtoChangeInputText');
-      EventBus.$off('GoingtoHideInputText');
+      EventBus.$off('GoingtoChangeInputValue');
+      EventBus.$off('GoingtoHideInputComponent');
+      EventBus.$off('GoingtoDisableInputComponent');
+      EventBus.$off('GoingtoChangeInputValueByAjax');
     },
     methods: {
       ...mapActions([
@@ -83,12 +110,12 @@
       },
 
       //调用本方法，可触发组件的值变更。
-      //当本组件监听到'GoingtoChangeInputText' event时调用本方法
+      //当本组件监听到'GoingtoChangeInputValue' event时调用本方法
       handleValueChange(newValue) {
         this.value = newValue;
       },
       //调用本方法，可触发本组件的显示/隐藏变更。
-      //当本组件监听到'GoingtoHideInputText' event时调用本方法
+      //当本组件监听到'GoingtoHideInputComponent' event时调用本方法
       toggleVisibility(shouldBeVisible) {
         this.visible = shouldBeVisible;
       },
@@ -99,6 +126,12 @@
           this.value = response.data.value; // 使用响应更新组件的值
         }
       },
+
+      // 处理组件启用/禁用状态的变化
+      handleDisable(isDisabled) {
+        this.disabled = isDisabled; // 更新disabled属性
+      },
+
       emitInitValue(){
         //初始化时候，可能会有初始化数据，而初始化数据可能会影响到其他组件，所以需要在初始化结束时候发出事件（例如用户地址选择场景，用户可能省份选中了“广东”，那么如果本场景，则需要发出省份下拉列表选中广东，进而影响城市列表，列出广东的城市）
         EventBus.$emit('ControlChanged',  { id: this.id, value: this.getValue(this.id) || '' });

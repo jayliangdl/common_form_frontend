@@ -98,6 +98,64 @@ const processConfig = (context,config) => {
   return config;
 }
 
+const inCompare=(var1, var2)=>{
+    // 直接比较字符串或数字
+    if ((typeof var1 === 'string' && typeof var2 === 'string') || 
+        (typeof var1 === 'number' && typeof var2 === 'number')) {
+      return var1 === var2;
+    }
+
+    // 处理两个数组的情况
+    if (Array.isArray(var1) && Array.isArray(var2)) {
+      return var1.some(element => var2.includes(element));
+    }
+
+    // 处理var1是数组，var2是字符串或数字的情况
+    if (Array.isArray(var1) && (typeof var2 === 'string' || typeof var2 === 'number')) {
+      return var1.includes(var2);
+    }
+
+    // 处理var2是数组，var1是字符串或数字的情况
+    if ((typeof var1 === 'string' || typeof var1 === 'number') && Array.isArray(var2)) {
+      return var2.includes(var1);
+    }
+
+    console.log("类型不兼容。");
+    return false;
+}
+
+/**
+ * 为组件设置初始显示/隐藏状态（依据context.properties.initVisible设置context.visible）
+ * context为vue组件实例中的this
+ * context.properties.initVisible为组件的入参（props）
+ * context.visible是组件data变量之一
+ * @param {*} context 
+ */
+const initVisible=(context)=>{
+  if((typeof context.properties=='object') && 'initVisible' in context.properties 
+        && context.properties.initVisible!=undefined 
+        && context.properties.initVisible!=null 
+        && (typeof context.properties.initVisible)=='boolean'){
+          context.visible = context.properties.initVisible;
+  }
+}
+
+/**
+ * 为组件设置初始enabled/disabled状态（依据context.properties.initDisabled设置context.disabled）
+ * context为vue组件实例中的this
+ * context.properties.initDisabled为组件的入参（props）
+ * context.disabled是组件data变量之一
+ * @param {*} context 
+ */
+const initDisabled=(context)=>{
+  if('initDisabled' in context.properties 
+        && context.properties.initDisabled!=undefined 
+        && context.properties.initDisabled!=null 
+        && (typeof context.properties.initDisabled)=='boolean'){
+          context.disabled = context.properties.initDisabled;
+      }
+}
+
 // const convertVariable = (context,payload_in_json) => {
 //   const operationHandlers = {
 //     condition_equals(context, conditionObj) {
@@ -143,4 +201,5 @@ const processConfig = (context,config) => {
 //   return recursiveConversion(payload_in_json);
 // }
 
-export {requestAjax, parseTemplate, processConfig};
+export {requestAjax, parseTemplate, processConfig,inCompare,
+  initVisible,initDisabled};

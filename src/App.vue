@@ -109,7 +109,7 @@ const nextConfig = [
         },
         "actionList": [
             {
-                "event": "GoingtoHideInputText",
+                "event": "GoingtoHideInputComponent",
                 "payload": {
                     "id": "input1",
                     "shouldBeVisible": false
@@ -124,7 +124,7 @@ const nextConfig = [
         },
         "actionList": [
             {
-                "event": "GoingtoChangeInputText",
+                "event": "GoingtoChangeInputValue",
                 "payload": {
                     "id": "input3",
                     "value": "${select3}"

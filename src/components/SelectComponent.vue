@@ -11,13 +11,14 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { EventBus } from '../eventBus.js';
-import { requestAjax } from '../util';
+import { requestAjax,initDisabled,initVisible } from '../util';
 export default {
   props: ['id', 'properties'],
   data(){
     return {
         'options':[],
         visible: true,
+        disabled: false, // 添加disabled属性，默认为false，表示组件未被禁用
     }
   },
   computed: {
@@ -44,6 +45,7 @@ export default {
     EventBus.$off('GoingtoChangeSelectOptions');
     EventBus.$off('GoingtoHideSelectComponent');
     EventBus.$off('GoingtoChangeSelectOptionsByAjax');
+    EventBus.$off('GoingtoDisableSelectComponent');
   },
   created(){
     // 当组件创建时，确保从 Vuex 中获取已存储的值
@@ -93,6 +95,15 @@ export default {
       }
     });
 
+    // 监听GoingtoDisableSelectComponent事件
+    EventBus.$on('GoingtoDisableSelectComponent', ({id,disabled}) => {
+        if (id === this.id) {
+          this.handleDisable(disabled); // 调用handleDisable方法
+        }
+      });
+
+    initDisabled(this);
+    initVisible(this);
     //初始化时候，可能会有初始化数据，而初始化数据可能会影响到其他组件，所以需要在初始化结束时候发出事件（例如用户地址选择场景，用户可能省份选中了“广东”，那么如果本场景，则需要发出省份下拉列表选中广东，进而影响城市列表，列出广东的城市）
     this.emitInitValue();
   },
@@ -140,6 +151,11 @@ export default {
         this.options = newOptions;
         this.visible = true; // 如果选项更新后希望下拉框可见，则设置为 true，根据实际需求调整
       }
+    },
+
+    // 处理组件启用/禁用状态的变化
+    handleDisable(isDisabled) {
+        this.disabled = isDisabled; // 更新disabled属性
     },
 
     emitInitValue(){

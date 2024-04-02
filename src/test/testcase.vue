@@ -9,7 +9,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import ContainerComponent from '../components/ContainerComponent.vue';
 import { EventBus } from '../eventBus.js';
-import { requestAjax,processConfig } from '../util';
+import { requestAjax,processConfig,inCompare } from '../util';
 import lodash from 'lodash';
 export default {
   components: {
@@ -64,9 +64,9 @@ export default {
               }else if(condition.operation === 'equals'){
                 return this.getValue(condition.id) && this.getValue(condition.id) === condition.value;
               }else if(condition.operation === 'in'){
-                return this.getValue(condition.id) && this.getValue(condition.id).includes(condition.value);
+                return this.getValue(condition.id) && inCompare(condition.value, this.getValue(condition.id));
               }else if(condition.operation === 'not in'){
-                return !(this.getValue(condition.id) && this.getValue(condition.id).includes(condition.value));
+                return !(this.getValue(condition.id) && inCompare(condition.value, this.getValue(condition.id)));
               }else{
                 return false;
               }

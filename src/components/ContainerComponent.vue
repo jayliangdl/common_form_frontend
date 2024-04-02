@@ -12,7 +12,7 @@
 
 <script>
 import { EventBus } from '../eventBus.js';
-
+import {initVisible} from '../util';
 export default {
   props: ['id','componentConfigsFromProps', 'properties'],
   data() {
@@ -54,6 +54,7 @@ export default {
         this.toggleVisibility(payload.shouldBeVisible);
       }
     });
+    initVisible(this);
   },
   
   methods: {

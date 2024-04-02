@@ -1,0 +1,169 @@
+{
+  "componentConfigs": [
+    {
+      "type": "LabelComponent",
+      "id": "travelOptionsLabel",
+      "properties": {
+        "initLabelText": "员工年度旅游选项"
+      }
+    },
+    {
+      "type": "CheckboxComponent",
+      "id": "travelOptionsCheckbox",
+      "properties": {
+        "options": [
+          {
+            "label": "黄山旅游",
+            "value": "Huangshan"
+          },
+          {
+            "label": "本地吃喝玩乐奢侈一日游",
+            "value": "LocalLuxury"
+          },
+          {
+            "label": "法国游",
+            "value": "France"
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabelComponent",
+      "id": "IDCardLabel",
+      "properties": {
+        "initLabelText": "身份证号"
+      }
+    },
+    {
+      "type": "InputComponent",
+      "id": "IDCardInput",
+      "properties": {
+        "initValue": "",
+        "initVisible": false
+      }
+    },
+    {
+      "type": "LabelComponent",
+      "id": "PassportLabel",
+      "properties": {
+        "initLabelText": "护照"
+      }
+    },
+    {
+      "type": "InputComponent",
+      "id": "PassportInput",
+      "properties": {
+        "initValue": "",
+        "initVisible": false
+      }
+    },
+    {
+      "type": "ButtonComponent",
+      "id": "submitButton",
+      "properties": {
+        "buttonText": "OK",
+        "url": "{{environment:API_URL}}/submit",
+        "method": "post",
+        "params": {
+          "customer_id": "{{parametersFromRequest:customer_id}}",
+          "customerSelectItems": "{{formField:travelOptionsCheckbox}}",
+          "IDCard": "{{formField:IDCardInput}}",
+          "Passport": "{{formField:PassportInput}}"
+        }
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "travelOptionsCheckbox",
+            "operation": "in",
+            "value": ["Huangshan", "France"]
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideInputComponent",
+          "payload": {
+            "id": "IDCardInput",
+            "shouldBeVisible": true
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type": "and",
+        "conditions": [
+          {
+            "id": "travelOptionsCheckbox",
+            "operation": "not in",
+            "value": ["Huangshan", "France"]
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideInputComponent",
+          "payload": {
+            "id": "IDCardInput",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type":"and",
+        "conditions": [
+          {
+            "id": "travelOptionsCheckbox",
+            "operation": "in",
+            "value": ["France"]
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideInputComponent",
+          "payload": {
+            "id": "PassportInput",
+            "shouldBeVisible": true
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "type":"and",
+        "conditions": [
+          {
+            "id": "travelOptionsCheckbox",
+            "operation": "not in",
+            "value": ["France"]
+          }
+        ]
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideInputComponent",
+          "payload": {
+            "id": "PassportInput",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    }
+  ],
+  "initAppConfig": {
+    "url": "{{environment:API_URL}}/initApp",
+    "method": "post",
+    "params": {
+      "customer_id": "{{parametersFromRequest:customer_id}}"
+    }
+  }
+}
