@@ -1,0 +1,107 @@
+{
+  "componentConfigs": [
+    {
+      "type": "EleSelectComponent",
+      "id": "testEleSelect",
+      "properties": {
+        "multiple": false,
+        "disabled": false,
+        "size": "small",
+        "clearable": true,
+        "multipleLimit": 0,
+        "name": "testSelect",
+        "placeholder": "请选择",
+        "filterable": true,
+        "remote": false,
+        "loadingText": "加载中",
+        "noMatchText": "无匹配数据",
+        "noDataText": "无数据",
+        "options": [
+          {
+            "value": "option1",
+            "label": "选项1",
+            "key": "1",
+            "disabled": false
+          },
+          {
+            "value": "option2",
+            "label": "选项2",
+            "key": "2",
+            "disabled": false
+          }
+        ],
+        "initValue": "option1"
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "id": "selectCondition1",
+        "operation": "equals",
+        "value": "triggerSelectValue1"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeEleSelectComponentValue",
+          "payload": {
+            "id": "testEleSelect",
+            "value": "option2"
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "id": "selectCondition2",
+        "operation": "equals",
+        "value": "triggerSelectValue2"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideEleSelectComponent",
+          "payload": {
+            "id": "testEleSelect",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "id": "selectCondition3",
+        "operation": "equals",
+        "value": "triggerSelectValue3"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoDisableEleSelectComponent",
+          "payload": {
+            "id": "testEleSelect",
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "id": "selectCondition4",
+        "operation": "equals",
+        "value": "triggerSelectValue4"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeEleSelectComponentValueByAjax",
+          "payload": {
+            "id": "testEleSelect",
+            "url": "http://example.com/api/change-select-value",
+            "method": "POST",
+            "params": {
+              "newValue": "option1"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

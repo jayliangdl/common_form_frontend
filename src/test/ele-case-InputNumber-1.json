@@ -1,0 +1,92 @@
+{
+  "componentConfigs": [
+    {
+      "type": "EleInputNumberComponent",
+      "id": "testEleInputNumber",
+      "properties": {
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "stepStrictly": false,
+        "precision": 2,
+        "size": "small",
+        "disabled": false,
+        "controls": true,
+        "controlsPosition": "right",
+        "placeholder": "请输入数字",
+        "label": "数量",
+        "initValue": 10
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "id": "someConditionId1",
+        "operation": "equals",
+        "value": "triggerValue1"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeEleInputNumberComponentValue",
+          "payload": {
+            "id": "testEleInputNumber",
+            "value": 20
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "id": "someConditionId2",
+        "operation": "equals",
+        "value": "triggerValue2"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideEleInputNumberComponent",
+          "payload": {
+            "id": "testEleInputNumber",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "id": "someConditionId3",
+        "operation": "equals",
+        "value": "triggerValue3"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoDisableEleInputNumberComponent",
+          "payload": {
+            "id": "testEleInputNumber",
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "id": "someConditionId4",
+        "operation": "equals",
+        "value": "triggerValue4"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeEleInputNumberComponentValueByAjax",
+          "payload": {
+            "id": "testEleInputNumber",
+            "url": "http://example.com/api/change-number-value",
+            "method": "POST",
+            "params": {
+              "newValue": 50
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

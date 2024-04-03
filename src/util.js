@@ -1,7 +1,7 @@
 import axios from 'axios'; 
 import {appConfig} from './config';
 
-const requestAjax=async ({url, method = 'GET', params}) => {
+const requestAjax=async ({url, method = 'GET', params, headers={}}) => {
   const axiosConfig = {
     method: method.toLowerCase(),
     url,

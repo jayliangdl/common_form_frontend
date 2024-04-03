@@ -1,0 +1,95 @@
+{
+  "componentConfigs": [
+    {
+      "type": "EleInputComponent",
+      "id": "testEleInput",
+      "properties": {
+        "maxlength": 10,
+        "minlength": 3,
+        "showWordLimit": true,
+        "placeholder": "请输入内容",
+        "clearable": true,
+        "disabled": false,
+        "size": "small",
+        "prefixIcon": "el-icon-edit",
+        "suffixIcon": "el-icon-check",
+        "rows": 2,
+        "autosize": false,
+        "name": "testInput",
+        "readonly": false,
+        "resize": "none",
+        "initValue": "初始文本"
+      }
+    }
+  ],
+  "nextConfigs": [
+    {
+      "condition": {
+        "id": "someConditionId1",
+        "operation": "equals",
+        "value": "triggerValue1"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeInputValue",
+          "payload": {
+            "id": "testEleInput",
+            "value": "新文本"
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "id": "someConditionId2",
+        "operation": "equals",
+        "value": "triggerValue2"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoHideInputComponent",
+          "payload": {
+            "id": "testEleInput",
+            "shouldBeVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "id": "someConditionId3",
+        "operation": "equals",
+        "value": "triggerValue3"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoDisableInputComponent",
+          "payload": {
+            "id": "testEleInput",
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "condition": {
+        "id": "someConditionId4",
+        "operation": "equals",
+        "value": "triggerValue4"
+      },
+      "actionList": [
+        {
+          "event": "GoingtoChangeInputValueByAjax",
+          "payload": {
+            "id": "testEleInput",
+            "url": "http://example.com/api/change-value",
+            "method": "POST",
+            "params": {
+              "newValue": "通过Ajax更新"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
